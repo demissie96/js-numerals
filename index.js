@@ -1,3 +1,9 @@
-document.getElementById("test").style.color = "red";
+var previousValue;
 
-document.getElementById("demo").innerHTML = "Paragraph changed.";
+function numberInput(value) {
+  if (previousValue !== value) {
+    previousValue = value;
+    document.getElementById("result").innerHTML = `${value}`;
+    console.log("Number Input:" + value);
+  }
+}
