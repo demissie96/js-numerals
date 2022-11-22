@@ -21,6 +21,39 @@ var numbersInLetter = {
   19: ["nineteen"],
 };
 
+function resultBetween0_99(num) {
+  // Result between 0 - 19
+  if (num < 20) {
+    return numbersInLetter[num][0];
+  }
+  // Result between 20 - 99
+  else if (num >= 20 && num < 100) {
+    let first = parseInt(num.toString()[0]);
+    let second = parseInt(num.toString()[1]);
+    let final;
+    if (second === 0) {
+      final = numbersInLetter[first][1];
+    } else {
+      final = `${numbersInLetter[first][1]}-${numbersInLetter[second][0]}`;
+    }
+    return final;
+  }
+}
+
+function resultBetween100_999(num) {
+  let first = parseInt(num.toString()[0]);
+  let second = parseInt(num.toString()[1]);
+  let third = parseInt(num.toString()[2]);
+  let final;
+  if (second === 0 && third === 0) {
+    final = `${numbersInLetter[first][0]} hundred`;
+  } else {
+    let result0_99 = resultBetween0_99(parseInt(`${second}${third}`));
+    final = `${numbersInLetter[first][0]} hundred and ${result0_99}`;
+  }
+  return final;
+}
+
 function convert(num) {
   console.log(num);
   if (num !== "") {
@@ -32,21 +65,13 @@ function convert(num) {
     } else if (num.toString()[0] == 0) {
       return "Number starts with 0";
     }
-    // Result between 0 - 19
-    else if (num < 20) {
-      return numbersInLetter[num][0];
-    } 
-    // Result between 20 - 99
-    else if (num >= 20 && num < 100) {
-      let first = parseInt(num.toString()[0]);
-      let second = parseInt(num.toString()[1]);
-      let final;
-      if (second === 0) {
-        final = numbersInLetter[first][1];
-      } else {
-        final = `${numbersInLetter[first][1]}-${numbersInLetter[second][0]}`;
-      }
-      return final;
+    // Result between 0 - 99
+    else if (num >= 0 && num < 100) {
+      return resultBetween0_99(num);
+    }
+    // Result between 100 - 999
+    else if (num >= 100 && num < 1000) {
+      return resultBetween100_999(num);
     } else {
       return "Don't know";
     }
