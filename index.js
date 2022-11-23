@@ -104,26 +104,20 @@ function resultBetween_Million_Sextillion(num) {
   let metricJump = Math.floor(numInString.length / 3);
   let firstElementLength = num.length - metricJump * 3;
 
-  console.log("metricJump: " + metricJump);
-  console.log("firstElementLength: " + firstElementLength);
-
   for (let index = 0; index <= metricJump; index++) {
     if (index === 0 && firstElementLength !== 0) {
       numList.push(parseInt(numInString.substring(0, firstElementLength)));
     } else if (index === 0 && firstElementLength === 0) {
       numList.push(parseInt(numInString.substring(index, index + 3)));
     } else if (index === 1 && firstElementLength !== 0) {
-      console.log("index 1 called");
       numList.push(
         parseInt(
           numInString.substring(firstElementLength, firstElementLength + 3)
         )
       );
     } else if (firstElementLength === 0 && index === 0) {
-      console.log("first element length is 0");
       numList.push(parseInt(numInString.substring(index * 3, index * 3 + 3)));
     } else if (firstElementLength === 1) {
-      console.log("firstElementLength === 1");
       numList.push(
         parseInt(
           numInString.substring(
@@ -133,27 +127,20 @@ function resultBetween_Million_Sextillion(num) {
         )
       );
     } else if (firstElementLength === 2) {
-      console.log("firstElementLength === 2");
       numList.push(
         parseInt(numInString.substring(index * 3 - 1, index * 3 + 3 - 1))
       );
     } else if (firstElementLength === 0 && index !== metricJump) {
-      console.log("firstElementLength === 0");
       numList.push(parseInt(numInString.substring(index * 3, index * 3 + 3)));
     }
   }
-
-  console.log("numList: " + numList);
 
   final = "";
 
   for (let index = 0; index < numList.length; index++) {
     let naming_index = numList.length - 2;
     naming_index -= index;
-    console.log("index " + index);
-    console.log("naming index " + naming_index);
     if (numList[index] === 0) {
-      console.log("Zero");
     } else if (numList[index] < 100 && naming_index >= 0) {
       final += `${resultBetween0_99(numList[index])} ${
         thousand_sextillion_list[naming_index]
@@ -214,6 +201,31 @@ function numberInput(value) {
     previousValue = value;
     var result = convert(value);
     document.getElementById("result").innerHTML = `${result}`;
-    // console.log("Number Input:" + value);
   }
 }
+
+// ######################### Test Code ######################################
+
+let test_list_num = [7, 42, 1999, 2001, 17999, 100001, 342251, 1300420];
+let test_list_letter = [
+  "seven",
+  "forty-two",
+  "one thousand nine hundred and ninety-nine",
+  "two thousand and one",
+  "seventeen thousand nine hundred and ninety-nine",
+  "one hundred thousand and one",
+  "three hundred and forty-two thousand two hundred and fifty-one",
+  "one million three hundred thousand four hundred and twenty",
+];
+
+let message = "*** All Good ***";
+for (let index = 0; index < test_list_num.length; index++) {
+  let result = convert(`${test_list_num[index]}`);
+  if (test_list_letter[index] === result) {
+    console.log(`Test ${index + 1} ✅`);
+  } else {
+    console.log(`Test ${index + 1} ❌`);
+    message = "*** Not Good ***";
+  }
+}
+console.log(message);
