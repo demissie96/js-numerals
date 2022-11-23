@@ -73,7 +73,7 @@ function resultBetween1000_999999(num) {
     remainingPart = parseInt(num.toString().substring(3));
     resultfirstPart = resultBetween100_999(firstPart);
   }
-  console.log("remainingPart: " + remainingPart);
+
   if (remainingPart === 0) {
     final = `${resultfirstPart} thousand`;
   } else if (remainingPart > 99) {
@@ -82,6 +82,93 @@ function resultBetween1000_999999(num) {
   } else {
     let resultRemainingPart = resultBetween0_99(remainingPart);
     final = `${resultfirstPart} thousand and ${resultRemainingPart}`;
+  }
+
+  return final;
+}
+
+function resultBetween_Million_Sextillion(num) {
+  let thousand_sextillion_list = [
+    "thousand",
+    "million",
+    "billion",
+    "trillion",
+    "quadrillion",
+    "quintillion",
+    "sextillion",
+  ];
+  let final;
+  let numList = [];
+
+  let numInString = num.toString();
+  let metricJump = Math.floor(numInString.length / 3);
+  let firstElementLength = num.length - metricJump * 3;
+
+  console.log("metricJump: " + metricJump);
+  console.log("firstElementLength: " + firstElementLength);
+
+  for (let index = 0; index <= metricJump; index++) {
+    if (index === 0 && firstElementLength !== 0) {
+      numList.push(parseInt(numInString.substring(0, firstElementLength)));
+    } else if (index === 0 && firstElementLength === 0) {
+      numList.push(parseInt(numInString.substring(index, index + 3)));
+    } else if (index === 1 && firstElementLength !== 0) {
+      console.log("index 1 called");
+      numList.push(
+        parseInt(
+          numInString.substring(firstElementLength, firstElementLength + 3)
+        )
+      );
+    } else if (firstElementLength === 0 && index === 0) {
+      console.log("first element length is 0");
+      numList.push(parseInt(numInString.substring(index * 3, index * 3 + 3)));
+    } else if (firstElementLength === 1) {
+      console.log("firstElementLength === 1");
+      numList.push(
+        parseInt(
+          numInString.substring(
+            index * 3 - firstElementLength - 1,
+            index * 3 + 3 - firstElementLength - 1
+          )
+        )
+      );
+    } else if (firstElementLength === 2) {
+      console.log("firstElementLength === 2");
+      numList.push(
+        parseInt(numInString.substring(index * 3 - 1, index * 3 + 3 - 1))
+      );
+    } else if (firstElementLength === 0 && index !== metricJump) {
+      console.log("firstElementLength === 0");
+      numList.push(parseInt(numInString.substring(index * 3, index * 3 + 3)));
+    }
+  }
+
+  console.log("numList: " + numList);
+
+  final = "";
+
+  for (let index = 0; index < numList.length; index++) {
+    let naming_index = numList.length - 2;
+    naming_index -= index;
+    console.log("index " + index);
+    console.log("naming index " + naming_index);
+    if (numList[index] === 0) {
+      console.log("Zero");
+    } else if (numList[index] < 100 && naming_index >= 0) {
+      final += `${resultBetween0_99(numList[index])} ${
+        thousand_sextillion_list[naming_index]
+      } `;
+    } else if (naming_index >= 0) {
+      final += `${resultBetween100_999(numList[index])} ${
+        thousand_sextillion_list[naming_index]
+      } `;
+    } else if (numList[index] < 100 && index + 1 === numList.length) {
+      final += `and ${resultBetween0_99(numList[index])}`;
+    } else if (numList[index] < 100) {
+      final += `${resultBetween0_99(numList[index])}`;
+    } else {
+      final += `${resultBetween100_999(numList[index])}`;
+    }
   }
 
   return final;
@@ -108,8 +195,12 @@ function convert(num) {
     // Result between 1000 - 999.999
     else if (num >= 1000 && num < 1000000) {
       return resultBetween1000_999999(num);
+    }
+    // Result between 1.000.000 - 999,999,999,999,999,999,999,999
+    else if (num >= 1000000 && num < 1000000000000000000000000n) {
+      return resultBetween_Million_Sextillion(num);
     } else {
-      return "Don't know";
+      return "Sorry, I have no idea. 🤔";
     }
   } else {
     return "";
