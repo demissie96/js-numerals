@@ -54,8 +54,40 @@ function resultBetween100_999(num) {
   return final;
 }
 
+function resultBetween1000_999999(num) {
+  let final;
+  let firstPart;
+  let remainingPart;
+  let resultfirstPart;
+
+  if (num.length === 4) {
+    firstPart = parseInt(num.toString()[0]);
+    remainingPart = parseInt(num.toString().substring(1));
+    resultfirstPart = resultBetween0_99(firstPart);
+  } else if (num.length === 5) {
+    firstPart = parseInt(num.substring(0, 2));
+    remainingPart = parseInt(num.toString().substring(2));
+    resultfirstPart = resultBetween0_99(firstPart);
+  } else {
+    firstPart = parseInt(num.substring(0, 3));
+    remainingPart = parseInt(num.toString().substring(3));
+    resultfirstPart = resultBetween100_999(firstPart);
+  }
+  console.log("remainingPart: " + remainingPart);
+  if (remainingPart === 0) {
+    final = `${resultfirstPart} thousand`;
+  } else if (remainingPart > 99) {
+    let resultRemainingPart = resultBetween100_999(remainingPart);
+    final = `${resultfirstPart} thousand ${resultRemainingPart}`;
+  } else {
+    let resultRemainingPart = resultBetween0_99(remainingPart);
+    final = `${resultfirstPart} thousand and ${resultRemainingPart}`;
+  }
+
+  return final;
+}
+
 function convert(num) {
-  console.log(num);
   if (num !== "") {
     // Catch errors
     if (num.toString().includes(".")) {
@@ -72,6 +104,10 @@ function convert(num) {
     // Result between 100 - 999
     else if (num >= 100 && num < 1000) {
       return resultBetween100_999(num);
+    }
+    // Result between 1000 - 999.999
+    else if (num >= 1000 && num < 1000000) {
+      return resultBetween1000_999999(num);
     } else {
       return "Don't know";
     }
@@ -87,6 +123,6 @@ function numberInput(value) {
     previousValue = value;
     var result = convert(value);
     document.getElementById("result").innerHTML = `${result}`;
-    console.log("Number Input:" + value);
+    // console.log("Number Input:" + value);
   }
 }
