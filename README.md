@@ -1,4 +1,4 @@
-# Arabic number conversion tool
+# __[Arabic number conversion tool](https://js-numerals.vercel.app/)__
 
 Create a web-based solution that converts numeric input into the English phrase of that number. 
 
@@ -27,3 +27,7 @@ Treat this task like a project to create a real-life application, focus on other
 - (Optional) Try to support British English counting where numbers between 1000 and 2000 are said out using "hundreds". E.g. 1999 === nineteen hundred and ninety-nine
 
 Thank you for your time and happy coding! 🧑‍💻
+
+---
+
+Here is my solution __[live demo](https://js-numerals.vercel.app/)__.
