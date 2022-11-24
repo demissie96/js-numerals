@@ -21,6 +21,8 @@ var numbersInLetter = {
   19: ["nineteen"],
 };
 
+let britishCounting = false;
+
 function resultBetween0_99(num) {
   // Result between 0 - 19
   if (num < 20) {
@@ -161,6 +163,22 @@ function resultBetween_Million_Sextillion(num) {
   return final;
 }
 
+function britishResult1000_2000(num) {
+  let final;
+  let firstPart = parseInt(num.toString().substring(0, 2));
+  let secondPart = parseInt(num.toString().substring(2));
+  let resultFirstPart = resultBetween0_99(firstPart);
+  let resultSecondPart = resultBetween0_99(secondPart);
+
+  if (secondPart === 0) {
+    final = `${resultFirstPart} hundred`;
+  } else {
+    final = `${resultFirstPart} hundred and ${resultSecondPart}`;
+  }
+
+  return final;
+}
+
 function convert(num) {
   if (num !== "") {
     // Catch errors
@@ -178,6 +196,10 @@ function convert(num) {
     // Result between 100 - 999
     else if (num >= 100 && num < 1000) {
       return resultBetween100_999(num);
+    }
+    // British Result between 1000 - 2000
+    else if (britishCounting === true && num >= 1000 && num <= 2000) {
+      return britishResult1000_2000(num);
     }
     // Result between 1000 - 999.999
     else if (num >= 1000 && num < 1000000) {
@@ -202,6 +224,13 @@ function numberInput(value) {
     var result = convert(value);
     document.getElementById("result").innerHTML = `${result}`;
   }
+}
+
+function changeBritishCounting(isTrue) {
+  britishCounting = isTrue;
+  let number = document.getElementById("number-input").value;
+  var result = convert(number);
+  document.getElementById("result").innerHTML = `${result}`;
 }
 
 // ######################### Test Code ######################################
